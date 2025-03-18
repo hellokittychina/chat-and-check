@@ -1,5 +1,4 @@
-
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useAppState } from "@/lib/store";
 import { InterviewCard } from "@/components/interviews/InterviewCard";
@@ -13,14 +12,20 @@ const Interview = () => {
   const { getInterview, incrementViews } = useAppState();
   const interview = id ? getInterview(id) : undefined;
   
+  const hrName = useMemo(() => {
+    const hrNames = ["Анна Кравец", "Елена Иванова", "Мария Петрова"];
+    const nameIndex = id ? 
+      Math.abs(id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)) % hrNames.length : 
+      0;
+    return hrNames[nameIndex];
+  }, [id]);
+  
   useEffect(() => {
     if (id) {
-      // Increment view counter when interview page is loaded
       incrementViews(id);
     }
   }, [id, incrementViews]);
 
-  // Online indicator pulse animation
   const pulseClass = "absolute top-0 right-0 animate-pulse bg-green-500 rounded-full h-3 w-3 border border-white";
 
   if (!id) {
@@ -49,10 +54,6 @@ const Interview = () => {
     );
   }
 
-  // Get random HR name
-  const hrNames = ["Анна Кравец", "Елена Иванова", "Мария Петрова"];
-  const hrName = hrNames[Math.floor(Math.random() * hrNames.length)];
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-interview-light/50 to-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
@@ -77,7 +78,6 @@ const Interview = () => {
               <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Записаться на собеседование</h2>
               <ApplicationForm interviewId={interview.id} />
               
-              {/* HR Manager Section */}
               <div className="mt-8 pt-6 border-t">
                 <div className="flex items-center">
                   <div className="relative">
