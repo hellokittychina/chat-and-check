@@ -27,16 +27,7 @@ export function Navbar() {
             <Link to="/" className="text-gray-700 hover:text-interview px-3 py-2 font-medium">
               Главная
             </Link>
-            <Link to="/panel" className="text-gray-700 hover:text-interview px-3 py-2 font-medium">
-              Управление
-            </Link>
           </nav>
-
-          <div className="hidden md:flex">
-            <Button asChild>
-              <Link to="/panel">Панель управления</Link>
-            </Button>
-          </div>
 
           <div className="md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -54,20 +45,6 @@ export function Navbar() {
                   >
                     Главная
                   </Link>
-                  <Link 
-                    to="/panel" 
-                    className="text-lg font-medium"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Управление
-                  </Link>
-                  <Button 
-                    className="mt-4" 
-                    asChild
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <Link to="/panel">Панель управления</Link>
-                  </Button>
                 </div>
               </SheetContent>
             </Sheet>

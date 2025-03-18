@@ -12,6 +12,7 @@ import Interview from "./pages/Interview";
 import VerifyCode from "./pages/VerifyCode";
 import Success from "./pages/Success";
 import NotFound from "./pages/NotFound";
+import WebApp from "./pages/WebApp";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/interview/:id" element={<Interview />} />
             <Route path="/code/:id" element={<VerifyCode />} />
             <Route path="/success/:id" element={<Success />} />
+            <Route path="/webapp" element={<WebApp />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

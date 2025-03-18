@@ -1,7 +1,5 @@
-
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { BriefcaseBusiness, ChevronRight, Users, BarChart, Clock } from "lucide-react";
+import { BriefcaseBusiness, ChevronRight, Users, BarChart } from "lucide-react";
 import { InterviewCard } from "@/components/interviews/InterviewCard";
 import { useAppState } from "@/lib/store";
 import { Navbar } from "@/components/layout/Navbar";
@@ -31,14 +29,6 @@ const Index = () => {
                 <p className="text-lg md:text-xl text-gray-700 mb-6">
                   Создавайте вакансии, управляйте заявками и оптимизируйте процесс найма с нашей платформой.
                 </p>
-                <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                  <Button asChild size="lg" className="px-8">
-                    <Link to="/panel">Начать работу</Link>
-                  </Button>
-                  <Button asChild variant="outline" size="lg">
-                    <Link to="/panel">Посмотреть панель</Link>
-                  </Button>
-                </div>
               </div>
               <div className="md:w-1/2">
                 <div className="bg-white p-6 rounded-lg shadow-lg border relative">
@@ -118,9 +108,6 @@ const Index = () => {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between items-center mb-8">
                 <h2 className="text-2xl font-bold">Актуальные вакансии</h2>
-                <Button asChild variant="outline">
-                  <Link to="/panel">Посмотреть все <ChevronRight className="h-4 w-4 ml-1" /></Link>
-                </Button>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -146,9 +133,6 @@ const Index = () => {
               <p className="text-xl mb-8 max-w-2xl mx-auto">
                 Наша платформа поможет вам сделать процесс найма более эффективным и удобным для всех участников
               </p>
-              <Button asChild size="lg" variant="secondary" className="px-8">
-                <Link to="/panel">Начать бесплатно</Link>
-              </Button>
             </div>
           </div>
         </section>
