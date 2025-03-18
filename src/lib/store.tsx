@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
 
@@ -15,6 +14,7 @@ export interface Interview {
   description: string;
   logo?: string;
   createdAt: Date;
+  views: number;
 }
 
 export interface Applicant {
@@ -31,12 +31,13 @@ export interface Applicant {
 interface AppState {
   interviews: Interview[];
   applicants: Applicant[];
-  addInterview: (interview: Omit<Interview, 'id' | 'createdAt'>) => void;
+  addInterview: (interview: Omit<Interview, 'id' | 'createdAt' | 'views'>) => void;
   updateInterview: (id: string, interview: Partial<Interview>) => void;
   deleteInterview: (id: string) => void;
   getInterview: (id: string) => Interview | undefined;
   addApplicant: (applicant: Omit<Applicant, 'id' | 'createdAt' | 'verified' | 'telegramCode'>) => Applicant;
   verifyApplicant: (id: string, code: string) => boolean;
+  incrementViews: (id: string) => void;
 }
 
 const AppContext = createContext<AppState | undefined>(undefined);
@@ -54,7 +55,8 @@ const sampleInterviews: Interview[] = [
     district: "Центральный",
     address: "ул. Ленина, 15",
     description: "<p>Мы ищем опытного Frontend разработчика со знанием React.</p>",
-    createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+    createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+    views: 24
   },
   {
     id: "demo2",
@@ -67,7 +69,8 @@ const sampleInterviews: Interview[] = [
     district: "Петроградский",
     address: "Невский пр., 25",
     description: "<p>Требуется креативный дизайнер для создания пользовательских интерфейсов.</p>",
-    createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
+    createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+    views: 15
   }
 ];
 
@@ -75,7 +78,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [interviews, setInterviews] = useState<Interview[]>(sampleInterviews);
   const [applicants, setApplicants] = useState<Applicant[]>([]);
 
-  // Имитация загрузки данных
   useEffect(() => {
     try {
       const savedInterviews = localStorage.getItem('interviews');
@@ -101,7 +103,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, []);
 
-  // Сохранение данных при изменении
   useEffect(() => {
     try {
       localStorage.setItem('interviews', JSON.stringify(interviews));
@@ -111,11 +112,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, [interviews, applicants]);
 
-  const addInterview = (interview: Omit<Interview, 'id' | 'createdAt'>) => {
+  const addInterview = (interview: Omit<Interview, 'id' | 'createdAt' | 'views'>) => {
     const newInterview: Interview = {
       ...interview,
       id: Math.random().toString(36).substring(2, 10),
-      createdAt: new Date()
+      createdAt: new Date(),
+      views: 0
     };
     
     setInterviews(prev => [...prev, newInterview]);
@@ -159,7 +161,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const addApplicant = (applicantData: Omit<Applicant, 'id' | 'createdAt' | 'verified' | 'telegramCode'>) => {
-    // Генерируем 5-значный код подтверждения
     const telegramCode = Math.floor(10000 + Math.random() * 90000).toString();
     
     const newApplicant: Applicant = {
@@ -211,6 +212,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return false;
   };
 
+  const incrementViews = (id: string) => {
+    setInterviews(prev => 
+      prev.map(interview => 
+        interview.id === id ? { ...interview, views: (interview.views || 0) + 1 } : interview
+      )
+    );
+  };
+
   return (
     <AppContext.Provider 
       value={{ 
@@ -221,7 +230,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         deleteInterview, 
         getInterview, 
         addApplicant, 
-        verifyApplicant 
+        verifyApplicant,
+        incrementViews
       }}>
       {children}
     </AppContext.Provider>

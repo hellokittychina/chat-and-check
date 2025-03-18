@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -9,7 +8,9 @@ import {
   Users,
   Calendar,
   ArrowUpDown,
-  Info
+  Info,
+  BarChart2,
+  Eye
 } from "lucide-react";
 import {
   Dialog,
@@ -57,7 +58,6 @@ import { Footer } from "@/components/layout/Footer";
 import { InterviewForm } from "@/components/interviews/InterviewForm";
 import { InterviewCard } from "@/components/interviews/InterviewCard";
 import { Placeholder } from "@/components/Placeholder";
-import { Rating } from "@/components/ui/rating";
 import { useAppState, Interview, Applicant } from "@/lib/store";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
@@ -77,7 +77,6 @@ const Panel = () => {
     direction: "asc" | "desc";
   }>({ key: "createdAt", direction: "desc" });
   
-  // Функции для работы с собеседованиями
   const handleCreateInterview = (data: Omit<Interview, "id" | "createdAt">) => {
     addInterview(data);
     setCreateDialogOpen(false);
@@ -100,7 +99,6 @@ const Panel = () => {
     setEditDialogOpen(true);
   };
   
-  // Функции для сортировки
   const requestSort = (key: string) => {
     let direction: "asc" | "desc" = "asc";
     
@@ -111,7 +109,6 @@ const Panel = () => {
     setSortConfig({ key, direction });
   };
   
-  // Отфильтрованные и отсортированные данные
   const filteredInterviews = interviews.filter((interview) => {
     const searchLower = searchQuery.toLowerCase();
     return (
@@ -143,12 +140,10 @@ const Panel = () => {
     return 0;
   });
   
-  // Получение информации о собеседовании для заявки
   const getInterviewForApplicant = (interviewId: string) => {
     return interviews.find(i => i.id === interviewId);
   };
   
-  // Форматирование даты
   const formatDate = (date: Date) => {
     return format(date, "d MMMM yyyy, HH:mm", { locale: ru });
   };
@@ -162,7 +157,7 @@ const Panel = () => {
           <div className="mb-8">
             <h1 className="text-3xl font-bold mb-2">Панель управления</h1>
             <p className="text-gray-600">
-              Создавайте и управляйте собеседованиями, просматривайте заявки кандидатов
+              Создавайте и управляйте собеседованиями, просматривайте заявки кандидатов и статистику
             </p>
           </div>
           
@@ -180,6 +175,10 @@ const Panel = () => {
                 <TabsTrigger value="applicants" className="flex items-center">
                   <Users className="mr-2 h-4 w-4" />
                   Кандидаты
+                </TabsTrigger>
+                <TabsTrigger value="statistics" className="flex items-center">
+                  <BarChart2 className="mr-2 h-4 w-4" />
+                  Статистика
                 </TabsTrigger>
               </TabsList>
               
@@ -234,9 +233,9 @@ const Panel = () => {
                             <ArrowUpDown className="ml-2 h-4 w-4" />
                           </div>
                         </TableHead>
-                        <TableHead onClick={() => requestSort("rating")} className="cursor-pointer">
+                        <TableHead onClick={() => requestSort("views")} className="cursor-pointer">
                           <div className="flex items-center">
-                            Рейтинг
+                            Просмотры
                             <ArrowUpDown className="ml-2 h-4 w-4" />
                           </div>
                         </TableHead>
@@ -246,12 +245,7 @@ const Panel = () => {
                             <ArrowUpDown className="ml-2 h-4 w-4" />
                           </div>
                         </TableHead>
-                        <TableHead onClick={() => requestSort("createdAt")} className="cursor-pointer">
-                          <div className="flex items-center">
-                            Дата создания
-                            <ArrowUpDown className="ml-2 h-4 w-4" />
-                          </div>
-                        </TableHead>
+                        <TableHead className="text-center">Кандидаты</TableHead>
                         <TableHead className="w-[180px]">Действия</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -264,10 +258,18 @@ const Panel = () => {
                             <TableCell className="font-medium">{interview.position}</TableCell>
                             <TableCell>{interview.company}</TableCell>
                             <TableCell>
-                              <Rating value={interview.rating} size="sm" />
+                              <div className="flex items-center">
+                                <Eye className="h-4 w-4 mr-1 text-gray-500" />
+                                {interview.views || 0}
+                              </div>
                             </TableCell>
                             <TableCell>{interview.city}</TableCell>
-                            <TableCell>{formatDate(interview.createdAt)}</TableCell>
+                            <TableCell className="text-center">
+                              <Badge variant="outline" className="flex items-center justify-center mx-auto w-10">
+                                <Users className="h-3 w-3 mr-1" />
+                                {applicantCount}
+                              </Badge>
+                            </TableCell>
                             <TableCell>
                               <div className="flex space-x-2">
                                 <TooltipProvider>
@@ -338,11 +340,6 @@ const Panel = () => {
                                     </AlertDialogFooter>
                                   </AlertDialogContent>
                                 </AlertDialog>
-                                
-                                <Badge variant="outline" className="ml-1 flex items-center">
-                                  <Users className="h-3 w-3 mr-1" />
-                                  {applicantCount}
-                                </Badge>
                               </div>
                             </TableCell>
                           </TableRow>
@@ -425,11 +422,72 @@ const Panel = () => {
                 />
               )}
             </TabsContent>
+            
+            <TabsContent value="statistics" className="mt-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <StatisticsCard 
+                  title="Просмотры вакансий" 
+                  value={interviews.reduce((sum, interview) => sum + (interview.views || 0), 0)}
+                  icon={<Eye className="h-5 w-5 text-blue-500" />}
+                  description="Общее количество просмотров всех вакансий"
+                />
+                
+                <StatisticsCard 
+                  title="Кандидаты" 
+                  value={applicants.length}
+                  icon={<Users className="h-5 w-5 text-green-500" />}
+                  description="Общее количество поданных заявок"
+                />
+                
+                <StatisticsCard 
+                  title="Конверсия" 
+                  value={`${interviews.reduce((sum, interview) => sum + (interview.views || 0), 0) > 0 
+                    ? Math.round((applicants.length / interviews.reduce((sum, interview) => sum + (interview.views || 0), 0)) * 100) 
+                    : 0}%`}
+                  icon={<BarChart2 className="h-5 w-5 text-purple-500" />}
+                  description="Процент просмотров, завершившихся заявкой"
+                />
+                
+                <StatisticsCard 
+                  title="Подтвержденные кандидаты" 
+                  value={applicants.filter(a => a.verified).length}
+                  icon={<Users className="h-5 w-5 text-interview" />}
+                  description="Кандидаты, подтвердившие код из Telegram"
+                />
+              </div>
+            </TabsContent>
           </Tabs>
         </div>
       </main>
       
       <Footer />
+    </div>
+  );
+};
+
+const StatisticsCard = ({ 
+  title, 
+  value, 
+  icon, 
+  description 
+}: { 
+  title: string; 
+  value: number | string; 
+  icon: React.ReactNode;
+  description: string;
+}) => {
+  return (
+    <div className="bg-white rounded-lg border p-6 shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex justify-between items-start">
+        <div>
+          <h3 className="text-lg font-medium text-gray-700">{title}</h3>
+          <p className="text-gray-500 text-sm mt-1">{description}</p>
+        </div>
+        <div className="p-3 rounded-full bg-gray-50">
+          {icon}
+        </div>
+      </div>
+      <p className="text-3xl font-bold mt-4">{value}</p>
     </div>
   );
 };
