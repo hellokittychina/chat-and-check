@@ -31,6 +31,7 @@ export function InterviewForm({
     address: initialData?.address || "",
     description: initialData?.description || "",
     logo: initialData?.logo,
+    views: initialData?.views || 0
   });
   
   const [logoPreview, setLogoPreview] = useState<string | undefined>(initialData?.logo);

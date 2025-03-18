@@ -4,13 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { useAppState } from "@/lib/store";
 
 interface ApplicationFormProps {
-  onSubmit: (data: { name: string; age: number; phone: string }) => void;
+  interviewId: string;
+  onSubmit?: (data: { name: string; age: number; phone: string }) => void;
   isLoading?: boolean;
 }
 
 export function ApplicationForm({
+  interviewId,
   onSubmit,
   isLoading = false,
 }: ApplicationFormProps) {
@@ -21,21 +24,22 @@ export function ApplicationForm({
   });
   
   const { toast } = useToast();
+  const { addApplicant } = useAppState();
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     
-    // Для поля возраста - разрешаем только цифры
+    // For age field - only allow digits
     if (name === "age" && value !== "" && !/^\d+$/.test(value)) {
       return;
     }
     
-    // Для поля телефона - форматирование и валидация
+    // For phone field - formatting and validation
     if (name === "phone") {
-      // Удаляем все нецифровые символы
+      // Remove all non-digit characters
       const digitsOnly = value.replace(/\D/g, "");
       
-      // Форматируем номер телефона
+      // Format phone number
       let formattedPhone = "";
       if (digitsOnly.length > 0) {
         formattedPhone = "+7 ";
@@ -81,7 +85,7 @@ export function ApplicationForm({
       return false;
     }
     
-    // Проверяем формат телефона (должен содержать 11 цифр)
+    // Check phone format (must contain 11 digits)
     const phoneDigits = phone.replace(/\D/g, "");
     if (phoneDigits.length !== 11) {
       toast({
@@ -102,11 +106,25 @@ export function ApplicationForm({
       return;
     }
     
-    onSubmit({
+    // Add the applicant to the store
+    const applicant = addApplicant({
+      interviewId,
       name: formData.name,
       age: parseInt(formData.age),
       phone: formData.phone,
     });
+    
+    // Also call the onSubmit prop if provided
+    if (onSubmit) {
+      onSubmit({
+        name: formData.name,
+        age: parseInt(formData.age),
+        phone: formData.phone,
+      });
+    }
+    
+    // Navigate to verification page
+    window.location.href = `/verify?id=${applicant.id}`;
   };
   
   return (
