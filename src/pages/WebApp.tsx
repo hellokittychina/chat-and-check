@@ -1,10 +1,10 @@
-
 import React, { useState } from "react";
 import { useAppState } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { InterviewCard } from "@/components/interviews/InterviewCard";
+import { InterviewMobileForm } from "@/components/interviews/InterviewMobileForm";
 import { 
   BriefcaseBusiness, 
   Plus, 
@@ -12,14 +12,15 @@ import {
   BarChart3, 
   Users, 
   Search, 
-  ChevronLeft
+  ChevronLeft,
+  X
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const WebApp = () => {
-  const { interviews, applicants } = useAppState();
+  const { interviews, applicants, addInterview } = useAppState();
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentView, setCurrentView] = useState<"list" | "detail" | "stats">("list");
+  const [currentView, setCurrentView] = useState<"list" | "detail" | "stats" | "create">("list");
   const [selectedInterview, setSelectedInterview] = useState<string | null>(null);
 
   // Get filtered interviews
@@ -49,6 +50,15 @@ const WebApp = () => {
   const handleBackClick = () => {
     setCurrentView("list");
     setSelectedInterview(null);
+  };
+
+  const handleCreateClick = () => {
+    setCurrentView("create");
+  };
+
+  const handleCreateInterview = (interviewData: any) => {
+    addInterview(interviewData);
+    setCurrentView("list");
   };
 
   const renderDetailView = () => {
@@ -207,6 +217,29 @@ const WebApp = () => {
     );
   };
 
+  const renderCreateView = () => {
+    return (
+      <div className="space-y-4">
+        <div className="flex justify-between items-center mb-4">
+          <Button 
+            variant="ghost" 
+            className="pl-0 -ml-2" 
+            onClick={handleBackClick}
+          >
+            <ChevronLeft className="mr-2 h-4 w-4" />
+            Назад
+          </Button>
+          <h2 className="text-lg font-semibold">Новое собеседование</h2>
+          <div className="w-8"></div>
+        </div>
+        
+        <div className="bg-white rounded-lg shadow-sm border p-4">
+          <InterviewMobileForm onSubmit={handleCreateInterview} />
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 pb-16">
       {currentView === "list" || currentView === "stats" ? (
@@ -223,6 +256,8 @@ const WebApp = () => {
       <div className="container mx-auto px-4 pb-4">
         {currentView === "detail" ? (
           renderDetailView()
+        ) : currentView === "create" ? (
+          renderCreateView()
         ) : (
           <Tabs defaultValue="interviews" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-4">
@@ -258,6 +293,15 @@ const WebApp = () => {
             </button>
           </div>
         </div>
+      )}
+      
+      {currentView === "list" && (
+        <Button 
+          className="fixed bottom-16 right-4 rounded-full shadow-lg h-12 w-12 p-0"
+          onClick={handleCreateClick}
+        >
+          <Plus className="h-6 w-6" />
+        </Button>
       )}
     </div>
   );

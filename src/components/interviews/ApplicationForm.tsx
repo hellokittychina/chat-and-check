@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useAppState } from "@/lib/store";
+import { useNavigate } from "react-router-dom";
 
 interface ApplicationFormProps {
   interviewId: string;
@@ -25,6 +26,7 @@ export function ApplicationForm({
   
   const { toast } = useToast();
   const { addApplicant } = useAppState();
+  const navigate = useNavigate();
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -124,7 +126,7 @@ export function ApplicationForm({
     }
     
     // Navigate to verification page
-    window.location.href = `/verify?id=${applicant.id}`;
+    navigate(`/code/${applicant.id}`);
   };
   
   return (

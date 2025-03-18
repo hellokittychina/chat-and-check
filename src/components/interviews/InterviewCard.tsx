@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Briefcase, MapPin, Clock, DollarSign } from "lucide-react";
+import { Briefcase, MapPin, Clock, DollarSign, Circle } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Rating } from "@/components/ui/rating";
@@ -12,6 +12,7 @@ interface InterviewCardProps {
   interview: Interview;
   compact?: boolean;
   showApplyButton?: boolean;
+  showHRInfo?: boolean;
   className?: string;
 }
 
@@ -19,6 +20,7 @@ export function InterviewCard({
   interview, 
   compact = false, 
   showApplyButton = false,
+  showHRInfo = false,
   className 
 }: InterviewCardProps) {
   const [imageError, setImageError] = useState(false);
@@ -51,25 +53,31 @@ export function InterviewCard({
       </span>
     </div>
   );
+
+  // Online indicator pulse animation
+  const pulseClass = "absolute bottom-0 right-0 animate-pulse bg-green-500 rounded-full h-2.5 w-2.5 border border-white";
   
   return (
     <Card className={cn("h-full flex flex-col", className)}>
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between">
-          <div className="flex items-start space-x-4">
-            {!compact && logoImage}
-            <div>
-              <CardTitle className={`${compact ? 'text-lg' : 'text-xl'} font-bold`}>
-                {position}
-              </CardTitle>
-              <div className={`${compact ? 'text-sm' : 'text-base'} text-gray-500 mt-1`}>
-                {company}
-              </div>
-              <div className="mt-1">
-                <Rating value={rating} size={compact ? "sm" : "md"} />
-              </div>
+          <div className="flex-1">
+            <CardTitle className={`${compact ? 'text-lg' : 'text-xl'} font-bold`}>
+              {position}
+            </CardTitle>
+            <div className={`${compact ? 'text-sm' : 'text-base'} text-gray-500 mt-1`}>
+              {company}
+            </div>
+            <div className="mt-1">
+              <Rating value={rating} size={compact ? "sm" : "sm"} />
             </div>
           </div>
+          
+          {!compact && (
+            <div className="ml-4">
+              {logoImage}
+            </div>
+          )}
         </div>
       </CardHeader>
       <CardContent className="pb-2 flex-grow">
