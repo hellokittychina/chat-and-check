@@ -7,10 +7,12 @@ import { ApplicationForm } from "@/components/interviews/ApplicationForm";
 import { Placeholder } from "@/components/Placeholder";
 import { Circle } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const Interview = () => {
   const { id } = useParams<{ id: string }>();
   const { getInterview, incrementViews } = useAppState();
+  const { t } = useLanguage();
   const interview = id ? getInterview(id) : undefined;
   
   const hrName = useMemo(() => {
@@ -34,8 +36,8 @@ const Interview = () => {
       <div className="bg-gray-50 min-h-screen py-8">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <Placeholder
-            title="Не указан ID"
-            description="Пожалуйста, убедитесь, что в URL указан ID собеседования"
+            title={t("interview.no_id")}
+            description={t("interview.no_id_description")}
           />
         </div>
       </div>
@@ -47,8 +49,8 @@ const Interview = () => {
       <div className="bg-gray-50 min-h-screen py-8">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <Placeholder
-            title="Собеседование не найдено"
-            description="Возможно, оно было удалено или еще не создано"
+            title={t("interview.not_found")}
+            description={t("interview.not_found_description")}
           />
         </div>
       </div>
@@ -68,7 +70,7 @@ const Interview = () => {
           <div className="bg-white rounded-xl shadow-md overflow-hidden border">
             <div className="p-6">
               <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 flex items-center justify-center">
-                Записаться на собеседование
+                {t("interview.book")}
                 <div className="relative ml-2">
                   <Circle fill="green" className="h-3 w-3 text-green-500" />
                   <span className={pulseClass}></span>
@@ -90,7 +92,7 @@ const Interview = () => {
                   </div>
                   <div className="ml-4">
                     <h3 className="font-semibold text-lg">{hrName}</h3>
-                    <p className="text-gray-600">HR менеджер {interview.company}</p>
+                    <p className="text-gray-600">{t("interview.hr_manager")} {interview.company}</p>
                   </div>
                 </div>
               </div>
@@ -99,7 +101,7 @@ const Interview = () => {
         </div>
         
         <div className="text-center mt-8 text-gray-500 text-sm">
-          © {new Date().getFullYear()} jobuz. Все права защищены.
+          © {new Date().getFullYear()} jobuz. {t("footer.rights")}
         </div>
       </div>
     </div>

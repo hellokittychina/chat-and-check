@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Navbar } from "@/components/layout/Navbar";
@@ -10,12 +10,14 @@ import { Placeholder } from "@/components/Placeholder";
 import { useToast } from "@/hooks/use-toast";
 import { useAppState } from "@/lib/store";
 import { MessageCircle } from "lucide-react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const VerifyCode = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { applicants, verifyApplicant } = useAppState();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   if (!id) {
@@ -31,12 +33,12 @@ const VerifyCode = () => {
         <main className="flex-grow bg-gray-50 py-8">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <Placeholder
-              title="Заявка не найдена"
-              description="Запрошенная заявка не существует или была удалена"
+              title={t("verify.not_found")}
+              description={t("verify.not_found_description")}
             />
             <div className="flex justify-center mt-8">
               <Button asChild>
-                <a href="/">Вернуться на главную</a>
+                <Link to="/">{t("common.back_to_home")}</Link>
               </Button>
             </div>
           </div>
@@ -86,9 +88,9 @@ const VerifyCode = () => {
               <div className="bg-interview-light inline-flex p-3 rounded-full mb-4">
                 <MessageCircle className="h-6 w-6 text-interview" />
               </div>
-              <h1 className="text-2xl font-bold">Подтвердите номер телефона</h1>
+              <h1 className="text-2xl font-bold">{t("verify.title")}</h1>
               <p className="text-gray-600 mt-1">
-                На ваш номер телефона через Telegram был отправлен код подтверждения
+                {t("verify.description")}
               </p>
             </div>
             
@@ -100,7 +102,7 @@ const VerifyCode = () => {
           
           <div className="mt-4 text-center">
             <Button variant="link" asChild>
-              <a href="/">Вернуться на главную</a>
+              <Link to="/">{t("common.back_to_home")}</Link>
             </Button>
           </div>
         </div>

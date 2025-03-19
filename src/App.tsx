@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppProvider } from "@/lib/store";
+import { LanguageProvider } from "@/lib/LanguageContext";
 
 import Index from "./pages/Index";
 import Panel from "./pages/Panel";
@@ -19,21 +20,23 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AppProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/panel" element={<Panel />} />
-            <Route path="/interview/:id" element={<Interview />} />
-            <Route path="/code/:id" element={<VerifyCode />} />
-            <Route path="/success/:id" element={<Success />} />
-            <Route path="/webapp" element={<WebApp />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+      <LanguageProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/panel" element={<Panel />} />
+              <Route path="/interview/:id" element={<Interview />} />
+              <Route path="/code/:id" element={<VerifyCode />} />
+              <Route path="/success/:id" element={<Success />} />
+              <Route path="/webapp" element={<WebApp />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </LanguageProvider>
     </AppProvider>
   </QueryClientProvider>
 );

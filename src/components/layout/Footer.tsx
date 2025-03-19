@@ -1,7 +1,10 @@
 
 import { Link } from "react-router-dom";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export function Footer() {
+  const { t } = useLanguage();
+  
   return (
     <footer className="bg-white border-t mt-auto">
       <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
@@ -16,7 +19,7 @@ export function Footer() {
           </div>
           
           <div className="mt-4 md:mt-0 text-sm text-gray-500">
-            © {new Date().getFullYear()} jobuz. Все права защищены.
+            © {new Date().getFullYear()} jobuz. {t("footer.rights")}
           </div>
         </div>
       </div>

@@ -8,10 +8,12 @@ import { Footer } from "@/components/layout/Footer";
 import { Placeholder } from "@/components/Placeholder";
 import { useAppState } from "@/lib/store";
 import { CheckCircle, Phone } from "lucide-react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const Success = () => {
   const { id } = useParams<{ id: string }>();
   const { applicants, interviews } = useAppState();
+  const { t } = useLanguage();
   const [timeLeft, setTimeLeft] = useState<number>(10);
   
   useEffect(() => {
@@ -36,12 +38,12 @@ const Success = () => {
         <main className="flex-grow bg-gray-50 py-8">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <Placeholder
-              title="Заявка не найдена"
-              description="Запрошенная заявка не существует или была удалена"
+              title={t("verify.not_found")}
+              description={t("verify.not_found_description")}
             />
             <div className="flex justify-center mt-8">
               <Button asChild>
-                <Link to="/">Вернуться на главную</Link>
+                <Link to="/">{t("common.back_to_home")}</Link>
               </Button>
             </div>
           </div>
@@ -58,12 +60,12 @@ const Success = () => {
         <main className="flex-grow bg-gray-50 py-8">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <Placeholder
-              title="Заявка не подтверждена"
-              description="Пожалуйста, подтвердите свой номер телефона"
+              title={t("success.not_verified")}
+              description={t("success.verify_request")}
             />
             <div className="flex justify-center mt-8">
               <Button asChild>
-                <Link to={`/code/${id}`}>Ввести код подтверждения</Link>
+                <Link to={`/code/${id}`}>{t("success.enter_code")}</Link>
               </Button>
             </div>
           </div>
@@ -91,12 +93,12 @@ const Success = () => {
               </div>
             </div>
             
-            <h1 className="text-2xl font-bold mb-2">Запись подтверждена!</h1>
+            <h1 className="text-2xl font-bold mb-2">{t("success.title")}</h1>
             
             <p className="text-gray-600 mb-6">
-              Вы успешно записаны на собеседование
-              {interview && <> на должность <strong>{interview.position}</strong></>}.
-              Ожидайте звонка по номеру:
+              {t("success.description")}
+              {interview && <> {t("success.for_position")} <strong>{interview.position}</strong></>}.
+              {t("success.waiting_call")}
             </p>
             
             <div className="inline-flex items-center justify-center bg-gray-100 px-4 py-2 rounded-full mb-6">
@@ -105,11 +107,11 @@ const Success = () => {
             </div>
             
             <p className="text-gray-500 text-sm mb-6">
-              Наш представитель свяжется с вами в ближайшее время для уточнения деталей и подтверждения времени собеседования.
+              {t("success.hr_contact")}
             </p>
             
             <Button asChild className="w-full">
-              <Link to="/">Вернуться на главную{timeLeft > 0 && ` (${timeLeft}с)`}</Link>
+              <Link to="/">{t("common.back_to_home")}{timeLeft > 0 && ` (${timeLeft}с)`}</Link>
             </Button>
           </Card>
         </div>

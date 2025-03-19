@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useAppState } from "@/lib/store";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/lib/LanguageContext";
 
 interface ApplicationFormProps {
   interviewId: string;
@@ -27,6 +28,7 @@ export function ApplicationForm({
   const { toast } = useToast();
   const { addApplicant } = useAppState();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -104,7 +106,7 @@ export function ApplicationForm({
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="name">Ваше имя*</Label>
+          <Label htmlFor="name">{t("form.name")}</Label>
           <Input
             id="name"
             name="name"
@@ -116,7 +118,7 @@ export function ApplicationForm({
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="age">Ваш возраст*</Label>
+          <Label htmlFor="age">{t("form.age")}</Label>
           <Input
             id="age"
             name="age"
@@ -131,7 +133,7 @@ export function ApplicationForm({
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="phone">Номер телефона*</Label>
+          <Label htmlFor="phone">{t("form.phone")}</Label>
           <Input
             id="phone"
             name="phone"
@@ -141,13 +143,13 @@ export function ApplicationForm({
             required
           />
           <p className="text-sm text-gray-500">
-            На этот номер будет отправлен код подтверждения
+            {t("form.phone_note")}
           </p>
         </div>
       </div>
       
       <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? "Отправка..." : "Записаться на собеседование"}
+        {isLoading ? t("form.submitting") : t("form.book")}
       </Button>
     </form>
   );

@@ -4,9 +4,11 @@ import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const NotFound = () => {
   const location = useLocation();
+  const { t } = useLanguage();
 
   useEffect(() => {
     console.error(
@@ -23,13 +25,13 @@ const NotFound = () => {
         <div className="text-center max-w-lg px-4">
           <h1 className="text-6xl font-bold text-interview mb-4">404</h1>
           <p className="text-xl text-gray-600 mb-6">
-            Упс! Страница не найдена
+            {t("404.title")}
           </p>
           <p className="text-gray-500 mb-8">
-            Страница, которую вы ищете, не существует или была перемещена.
+            {t("404.description")}
           </p>
           <Button asChild size="lg">
-            <Link to="/">Вернуться на главную</Link>
+            <Link to="/">{t("common.back_to_home")}</Link>
           </Button>
         </div>
       </main>

@@ -1,5 +1,5 @@
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { MenuIcon } from "lucide-react";
 import {
@@ -8,9 +8,16 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useState } from "react";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguage();
+  const location = useLocation();
+  
+  // Hide language switcher on admin panel
+  const isAdminPanel = location.pathname === "/panel";
 
   return (
     <header className="bg-white border-b sticky top-0 z-30">
@@ -27,18 +34,23 @@ export function Navbar() {
             </Link>
           </div>
 
-          <div className="md:hidden">
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <MenuIcon className="h-6 w-6" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <div className="flex flex-col space-y-4 mt-6">
-                </div>
-              </SheetContent>
-            </Sheet>
+          <div className="flex items-center">
+            {!isAdminPanel && <LanguageSwitcher />}
+            
+            <div className="md:hidden ml-2">
+              <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <MenuIcon className="h-6 w-6" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right">
+                  <div className="flex flex-col space-y-4 mt-6">
+                    {!isAdminPanel && <LanguageSwitcher />}
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
       </div>
