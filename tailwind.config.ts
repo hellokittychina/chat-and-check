@@ -64,9 +64,9 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				interview: {
-					light: '#e6f7ff',
-					DEFAULT: '#1890ff',
-					dark: '#096dd9'
+					light: '#f0f0f0',
+					DEFAULT: '#333333',
+					dark: '#222222'
 				}
 			},
 			borderRadius: {

@@ -36,33 +36,6 @@ export function ApplicationForm({
       return;
     }
     
-    // For phone field - formatting and validation
-    if (name === "phone") {
-      // Remove all non-digit characters
-      const digitsOnly = value.replace(/\D/g, "");
-      
-      // Format phone number
-      let formattedPhone = "";
-      if (digitsOnly.length > 0) {
-        formattedPhone = "+7 ";
-        if (digitsOnly.length > 1) {
-          formattedPhone += `(${digitsOnly.substring(1, Math.min(4, digitsOnly.length))}`;
-        }
-        if (digitsOnly.length > 4) {
-          formattedPhone += `) ${digitsOnly.substring(4, Math.min(7, digitsOnly.length))}`;
-        }
-        if (digitsOnly.length > 7) {
-          formattedPhone += `-${digitsOnly.substring(7, Math.min(9, digitsOnly.length))}`;
-        }
-        if (digitsOnly.length > 9) {
-          formattedPhone += `-${digitsOnly.substring(9, Math.min(11, digitsOnly.length))}`;
-        }
-      }
-      
-      setFormData((prev) => ({ ...prev, [name]: formattedPhone }));
-      return;
-    }
-    
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
   
@@ -87,12 +60,10 @@ export function ApplicationForm({
       return false;
     }
     
-    // Check phone format (must contain 11 digits)
-    const phoneDigits = phone.replace(/\D/g, "");
-    if (phoneDigits.length !== 11) {
+    if (!phone.trim()) {
       toast({
         title: "Ошибка заполнения",
-        description: "Укажите корректный номер телефона",
+        description: "Укажите номер телефона",
         variant: "destructive",
       });
       return false;
@@ -168,7 +139,6 @@ export function ApplicationForm({
             value={formData.phone}
             onChange={handleChange}
             required
-            placeholder="+7 (___) ___-__-__"
           />
           <p className="text-sm text-gray-500">
             На этот номер будет отправлен код подтверждения

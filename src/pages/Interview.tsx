@@ -1,10 +1,11 @@
+
 import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useAppState } from "@/lib/store";
 import { InterviewCard } from "@/components/interviews/InterviewCard";
 import { ApplicationForm } from "@/components/interviews/ApplicationForm";
 import { Placeholder } from "@/components/Placeholder";
-import { BriefcaseBusiness, Circle } from "lucide-react";
+import { Circle } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Interview = () => {
@@ -26,7 +27,7 @@ const Interview = () => {
     }
   }, [id, incrementViews]);
 
-  const pulseClass = "absolute top-0 right-0 animate-pulse bg-green-500 rounded-full h-3 w-3 border border-white";
+  const pulseClass = "absolute bottom-0 right-0 animate-pulse bg-green-500 rounded-full h-3 w-3 border border-white";
 
   if (!id) {
     return (
@@ -55,17 +56,8 @@ const Interview = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-interview-light/50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-interview-light to-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
-        <div className="flex items-center justify-center mb-6">
-          <BriefcaseBusiness className="h-7 w-7 text-interview mr-2" />
-          <h1 className="text-2xl font-bold text-gray-800">InterviewManager</h1>
-          <div className="relative ml-2 mt-1">
-            <Circle fill="green" className="h-3 w-3 text-green-500" />
-            <span className={pulseClass}></span>
-          </div>
-        </div>
-        
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-xl shadow-md overflow-hidden border mb-8">
             <div className="p-6">
@@ -75,7 +67,13 @@ const Interview = () => {
           
           <div className="bg-white rounded-xl shadow-md overflow-hidden border">
             <div className="p-6">
-              <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Записаться на собеседование</h2>
+              <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 flex items-center justify-center">
+                Записаться на собеседование
+                <div className="relative ml-2">
+                  <Circle fill="green" className="h-3 w-3 text-green-500" />
+                  <span className={pulseClass}></span>
+                </div>
+              </h2>
               <ApplicationForm interviewId={interview.id} />
               
               <div className="mt-8 pt-6 border-t">
@@ -101,7 +99,7 @@ const Interview = () => {
         </div>
         
         <div className="text-center mt-8 text-gray-500 text-sm">
-          © {new Date().getFullYear()} InterviewManager. Все права защищены.
+          © {new Date().getFullYear()} jobuz. Все права защищены.
         </div>
       </div>
     </div>
