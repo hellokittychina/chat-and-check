@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { BrandTelegram, Sparkles } from "lucide-react";
+import { MessageSquare, Sparkles } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 
 interface CodeVerificationFormProps {
@@ -114,7 +114,7 @@ export function CodeVerificationForm({
           <div className="telegram-pulse w-16 h-16"></div>
           <div className="telegram-pulse w-14 h-14" style={{ animationDelay: "0.5s" }}></div>
           <div className="z-10 bg-white p-3 rounded-full shadow-md relative">
-            <BrandTelegram size={36} className="text-interview" />
+            <MessageSquare size={36} className="text-interview" />
             <Sparkles 
               className="absolute -top-2 -right-1 text-interview animate-sparkle" 
               size={16} 

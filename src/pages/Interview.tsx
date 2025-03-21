@@ -1,4 +1,3 @@
-
 import { useEffect, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useAppState } from "@/lib/store";
@@ -60,7 +59,6 @@ const Interview = () => {
     );
   }
   
-  // Format the location information
   const locationInfo = [
     interview.city,
     interview.district,
@@ -165,7 +163,7 @@ const Interview = () => {
                       </div>
                       <div className="flex items-center">
                         <MessageCircle className="h-4 w-4 mr-1" />
-                        <span>{t("interview.applied")}: {interview.applicants}</span>
+                        <span>{t("interview.applied")}: {interview.applicants || 0}</span>
                       </div>
                     </div>
                   </Card>
