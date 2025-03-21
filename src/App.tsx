@@ -14,6 +14,8 @@ import VerifyCode from "./pages/VerifyCode";
 import Success from "./pages/Success";
 import NotFound from "./pages/NotFound";
 import WebApp from "./pages/WebApp";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +34,8 @@ const App = () => (
               <Route path="/code/:id" element={<VerifyCode />} />
               <Route path="/success/:id" element={<Success />} />
               <Route path="/webapp" element={<WebApp />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

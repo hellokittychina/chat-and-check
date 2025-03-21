@@ -63,10 +63,11 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
+				// Updated color scheme to green
 				interview: {
-					light: '#f0f0f0',
-					DEFAULT: '#333333',
-					dark: '#222222'
+					light: '#e6f7e9',
+					DEFAULT: '#34a853',
+					dark: '#2a8644'
 				}
 			},
 			borderRadius: {
@@ -98,12 +99,38 @@ export default {
 					'50%': {
 						opacity: 0.5
 					}
+				},
+				'sparkle': {
+					'0%': { 
+						transform: 'scale(0) rotate(0deg)',
+						opacity: 0
+					},
+					'50%': {
+						opacity: 1
+					},
+					'100%': {
+						transform: 'scale(1) rotate(180deg)',
+						opacity: 0
+					}
+				},
+				'input-highlight': {
+					'0%': {
+						border: '2px solid transparent'
+					},
+					'50%': {
+						border: '2px solid var(--color-interview)'
+					},
+					'100%': {
+						border: '2px solid transparent'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'pulse-slow': 'pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+				'pulse-slow': 'pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+				'sparkle': 'sparkle 2s ease-in-out infinite',
+				'input-highlight': 'input-highlight 1.5s ease-in-out infinite'
 			}
 		}
 	},

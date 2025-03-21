@@ -14,16 +14,16 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
 
-    --primary: 240 5.9% 10%;
+    --primary: 142 75% 35%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: 140 20% 96%;
+    --secondary-foreground: 142 75% 35%;
 
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
 
-    --accent: 240 5.9% 10%;
+    --accent: 142 75% 35%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84.2% 60.2%;
@@ -31,9 +31,11 @@
 
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    --ring: 142 75% 35%;
 
     --radius: 0.5rem;
+
+    --color-interview: #34a853;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -115,4 +117,50 @@
   border: none;
   height: auto;
   min-height: 100px;
+}
+
+.sparkle-animation {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  background-color: #34a853;
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+}
+
+.telegram-verification {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.telegram-pulse {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(52, 168, 83, 0.3);
+  animation: pulse 1.5s infinite ease-out;
+  z-index: 0;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
 }

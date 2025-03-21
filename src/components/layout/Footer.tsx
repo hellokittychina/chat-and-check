@@ -4,6 +4,7 @@ import { useLanguage } from "@/lib/LanguageContext";
 
 export function Footer() {
   const { t } = useLanguage();
+  const currentYear = new Date().getFullYear();
   
   return (
     <footer className="bg-white border-t mt-auto">
@@ -15,11 +16,20 @@ export function Footer() {
               <path d="M21 15L17 19M17 15L21 19" stroke="currentColor" stroke-width="2" strokeLinecap="round"/>
               <path d="M13 5V3M7 5V3M19 5V3" stroke="currentColor" stroke-width="2" strokeLinecap="round"/>
             </svg>
-            <span className="ml-2 text-lg font-semibold text-gray-800">jobuz</span>
+            <Link to="/" className="ml-2 text-lg font-semibold text-gray-800">jobuz</Link>
           </div>
           
-          <div className="mt-4 md:mt-0 text-sm text-gray-500">
-            © {new Date().getFullYear()} jobuz. {t("footer.rights")}
+          <div className="flex flex-col md:flex-row gap-4 md:gap-8 mb-4 md:mb-0">
+            <Link to="/privacy" className="text-gray-600 hover:text-interview">
+              {t("footer.privacy_policy")}
+            </Link>
+            <Link to="/terms" className="text-gray-600 hover:text-interview">
+              {t("footer.terms_of_service")}
+            </Link>
+          </div>
+          
+          <div className="text-sm text-gray-500">
+            © {currentYear} jobuz. {t("footer.rights")}
           </div>
         </div>
       </div>

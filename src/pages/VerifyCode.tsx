@@ -21,7 +21,7 @@ const VerifyCode = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   if (!id) {
-    return <div>Ошибка: Идентификатор заявки не найден</div>;
+    return <div>{t("verify.error_no_id")}</div>;
   }
   
   const applicant = applicants.find(a => a.id === id);
@@ -37,7 +37,7 @@ const VerifyCode = () => {
               description={t("verify.not_found_description")}
             />
             <div className="flex justify-center mt-8">
-              <Button asChild>
+              <Button asChild className="bg-interview hover:bg-interview-dark">
                 <Link to="/">{t("common.back_to_home")}</Link>
               </Button>
             </div>
@@ -48,7 +48,7 @@ const VerifyCode = () => {
     );
   }
   
-  // Если заявка уже подтверждена, перенаправляем на страницу успеха
+  // If the application is already verified, redirect to success page
   if (applicant.verified) {
     navigate(`/success/${id}`);
     return null;
@@ -61,7 +61,7 @@ const VerifyCode = () => {
       const isVerified = verifyApplicant(id, code);
       
       if (isVerified) {
-        // Перенаправляем на страницу успеха
+        // Redirect to success page
         navigate(`/success/${id}`);
       } else {
         setIsSubmitting(false);
@@ -69,8 +69,8 @@ const VerifyCode = () => {
     } catch (error) {
       console.error("Error verifying code:", error);
       toast({
-        title: "Ошибка проверки кода",
-        description: "Пожалуйста, попробуйте снова позже",
+        title: t("verify.error_title"),
+        description: t("verify.error_description"),
         variant: "destructive"
       });
       setIsSubmitting(false);
@@ -78,12 +78,12 @@ const VerifyCode = () => {
   };
   
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-interview-light/60 to-white">
       <Navbar />
       
-      <main className="flex-grow bg-gray-50 py-12">
+      <main className="flex-grow py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-md">
-          <Card className="p-6">
+          <Card className="p-6 shadow-lg border-0">
             <div className="text-center mb-6">
               <div className="bg-interview-light inline-flex p-3 rounded-full mb-4">
                 <MessageCircle className="h-6 w-6 text-interview" />
@@ -101,7 +101,7 @@ const VerifyCode = () => {
           </Card>
           
           <div className="mt-4 text-center">
-            <Button variant="link" asChild>
+            <Button variant="link" asChild className="text-interview">
               <Link to="/">{t("common.back_to_home")}</Link>
             </Button>
           </div>
