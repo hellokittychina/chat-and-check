@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { ChevronRight, Users, BarChart, Check, Briefcase, Star, Shield } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
@@ -28,9 +27,6 @@ const Index = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button className="bg-interview hover:bg-interview-dark text-white" asChild>
-                    <Link to="/panel">{t("index.get_started")}</Link>
-                  </Button>
-                  <Button variant="outline" className="border-interview text-interview" asChild>
                     <a href="#features">{t("index.learn_more")}</a>
                   </Button>
                 </div>
@@ -173,18 +169,9 @@ const Index = () => {
                     ))}
                   </div>
                   <p className="text-gray-700 mb-6 italic">"{t(`index.testimonial${i}`)}"</p>
-                  <div className="flex items-center">
-                    <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden mr-4">
-                      <img 
-                        src={`https://randomuser.me/api/portraits/men/${20 + i}.jpg`} 
-                        alt="Customer" 
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div>
-                      <p className="font-semibold">{t(`index.testimonial${i}_name`)}</p>
-                      <p className="text-sm text-gray-500">{t(`index.testimonial${i}_position`)}</p>
-                    </div>
+                  <div>
+                    <p className="font-semibold">{t(`index.testimonial${i}_name`)}</p>
+                    <p className="text-sm text-gray-500">{t(`index.testimonial${i}_position`)}</p>
                   </div>
                 </Card>
               ))}
@@ -202,9 +189,6 @@ const Index = () => {
               <p className="text-xl mb-8 max-w-2xl mx-auto text-white/80">
                 {t("index.cta_description")}
               </p>
-              <Button variant="secondary" size="lg" asChild>
-                <Link to="/panel">{t("index.cta_button")}</Link>
-              </Button>
             </div>
           </div>
         </section>
