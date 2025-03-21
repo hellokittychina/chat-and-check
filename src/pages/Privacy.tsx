@@ -2,7 +2,7 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Card } from "@/components/ui/card";
-import { Shield } from "lucide-react";
+import { Shield, Check, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/lib/LanguageContext";
 
