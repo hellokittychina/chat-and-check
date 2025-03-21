@@ -63,11 +63,11 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Updated color scheme to green
-				interview: {
-					light: '#e6f7e9',
-					DEFAULT: '#34a853',
-					dark: '#2a8644'
+				// Updated color scheme to blue
+				telegram: {
+					light: '#e3f2fd',
+					DEFAULT: '#0088cc',
+					dark: '#006dab'
 				}
 			},
 			borderRadius: {
@@ -118,7 +118,7 @@ export default {
 						border: '2px solid transparent'
 					},
 					'50%': {
-						border: '2px solid var(--color-interview)'
+						border: '2px solid var(--color-telegram)'
 					},
 					'100%': {
 						border: '2px solid transparent'

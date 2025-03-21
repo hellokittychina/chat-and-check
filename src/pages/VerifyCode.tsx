@@ -37,7 +37,7 @@ const VerifyCode = () => {
               description={t("verify.not_found_description")}
             />
             <div className="flex justify-center mt-8">
-              <Button asChild className="bg-interview hover:bg-interview-dark">
+              <Button asChild className="bg-telegram hover:bg-telegram-dark">
                 <Link to="/">{t("common.back_to_home")}</Link>
               </Button>
             </div>
@@ -78,15 +78,15 @@ const VerifyCode = () => {
   };
   
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-interview-light/60 to-white">
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-telegram-light/60 to-white">
       <Navbar />
       
       <main className="flex-grow py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-md">
           <Card className="p-6 shadow-lg border-0">
             <div className="text-center mb-6">
-              <div className="bg-interview-light inline-flex p-3 rounded-full mb-4">
-                <MessageCircle className="h-6 w-6 text-interview" />
+              <div className="bg-telegram-light inline-flex p-3 rounded-full mb-4">
+                <MessageCircle className="h-6 w-6 text-telegram" />
               </div>
               <h1 className="text-2xl font-bold">{t("verify.title")}</h1>
               <p className="text-gray-600 mt-1">
@@ -101,7 +101,7 @@ const VerifyCode = () => {
           </Card>
           
           <div className="mt-4 text-center">
-            <Button variant="link" asChild className="text-interview">
+            <Button variant="link" asChild className="text-telegram">
               <Link to="/">{t("common.back_to_home")}</Link>
             </Button>
           </div>

@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { MessageSquare, Sparkles } from "lucide-react";
+import { Send, Sparkles } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 
 interface CodeVerificationFormProps {
@@ -18,19 +18,9 @@ export function CodeVerificationForm({
   length = 5,
 }: CodeVerificationFormProps) {
   const [code, setCode] = useState<string[]>(Array(length).fill(""));
-  const [highlightedIndex, setHighlightedIndex] = useState<number>(0);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const { toast } = useToast();
   const { t } = useLanguage();
-  
-  // Animation for input highlight
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setHighlightedIndex((prev) => (prev + 1) % length);
-    }, 1500);
-    
-    return () => clearInterval(interval);
-  }, [length]);
   
   // Initialize refs for inputs
   useEffect(() => {
@@ -114,13 +104,13 @@ export function CodeVerificationForm({
           <div className="telegram-pulse w-16 h-16"></div>
           <div className="telegram-pulse w-14 h-14" style={{ animationDelay: "0.5s" }}></div>
           <div className="z-10 bg-white p-3 rounded-full shadow-md relative">
-            <MessageSquare size={36} className="text-interview" />
+            <Send size={36} className="text-telegram" />
             <Sparkles 
-              className="absolute -top-2 -right-1 text-interview animate-sparkle" 
+              className="absolute -top-2 -right-1 text-telegram animate-sparkle" 
               size={16} 
             />
             <Sparkles 
-              className="absolute -bottom-1 -left-2 text-interview animate-sparkle" 
+              className="absolute -bottom-1 -left-2 text-telegram animate-sparkle" 
               size={14}
               style={{ animationDelay: "0.7s" }}
             />
@@ -139,13 +129,12 @@ export function CodeVerificationForm({
               onChange={e => handleChange(index, e.target.value)}
               onKeyDown={e => handleKeyDown(index, e)}
               onPaste={index === 0 ? handlePaste : undefined}
+              placeholder="0"
               className={cn(
                 "w-12 h-14 text-center text-2xl font-bold border-2 rounded-md",
-                "focus:outline-none focus:ring-2 focus:ring-interview focus:border-transparent",
+                "focus:outline-none focus:ring-2 focus:ring-telegram focus:border-transparent",
                 "transition-all duration-200",
-                highlightedIndex === index && !digit 
-                  ? "border-interview animate-pulse" 
-                  : "border-gray-200"
+                !digit ? "border-gray-200" : "border-telegram"
               )}
               disabled={isLoading}
               autoFocus={index === 0}
@@ -158,7 +147,7 @@ export function CodeVerificationForm({
         {t("verify.enter_code")}
       </p>
       
-      <Button type="submit" className="w-full bg-interview hover:bg-interview-dark" disabled={isLoading}>
+      <Button type="submit" className="w-full bg-telegram hover:bg-telegram-dark" disabled={isLoading}>
         {isLoading ? t("verify.verifying") : t("verify.confirm")}
       </Button>
       
