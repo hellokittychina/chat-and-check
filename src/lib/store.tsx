@@ -15,6 +15,7 @@ export interface Interview {
   logo?: string;
   createdAt: Date;
   views: number;
+  applicants?: number; // Adding the applicants property as optional
 }
 
 export interface Applicant {
@@ -56,7 +57,8 @@ const sampleInterviews: Interview[] = [
     address: "ул. Ленина, 15",
     description: "<p>Мы ищем опытного Frontend разработчика со знанием React.</p>",
     createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-    views: 24
+    views: 24,
+    applicants: 5 // Adding sample applicants count
   },
   {
     id: "demo2",
@@ -70,7 +72,8 @@ const sampleInterviews: Interview[] = [
     address: "Невский пр., 25",
     description: "<p>Требуется креативный дизайнер для создания пользовательских интерфейсов.</p>",
     createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
-    views: 15
+    views: 15,
+    applicants: 3 // Adding sample applicants count
   }
 ];
 
@@ -117,7 +120,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       ...interview,
       id: Math.random().toString(36).substring(2, 10),
       createdAt: new Date(),
-      views: 0
+      views: 0,
+      applicants: 0 // Initialize applicants count to 0 for new interviews
     };
     
     setInterviews(prev => [...prev, newInterview]);
@@ -172,6 +176,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     
     setApplicants(prev => [...prev, newApplicant]);
+    
+    // Update the applicants count for the interview
+    setInterviews(prev => 
+      prev.map(interview => 
+        interview.id === applicantData.interviewId 
+          ? { ...interview, applicants: (interview.applicants || 0) + 1 } 
+          : interview
+      )
+    );
     
     return newApplicant;
   };
